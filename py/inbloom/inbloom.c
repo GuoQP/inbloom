@@ -50,9 +50,11 @@ instantiate_filter(uint32_t cardinality, uint16_t error_rate, const char *data, 
     PyObject *args = Py_BuildValue("(idy#)", cardinality, 1.0 / error_rate, data, datalen);
     PyObject *obj = FilterType.tp_new(&FilterType, args, NULL);
     if (FilterType.tp_init(obj, args, NULL) < 0) {
+        Py_DECREF(args);
         Py_DECREF(obj);
         obj = NULL;
     }
+    Py_DECREF(args);
     return obj;
 }
 
